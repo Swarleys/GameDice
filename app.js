@@ -11,7 +11,7 @@ GAME RULES:
 
 // Variables
 
-var scores, roundScore, activePlayer, diceDOM, gamePlaying;
+var scores, roundScore, activePlayer, diceDOM, gamePlaying, lastDice;
 
 init();
 
@@ -24,16 +24,23 @@ document.querySelector(".btn-roll").addEventListener("click", function(){
     // 2. Display the result
     diceDOM.src = "dice-" + dice + ".png"
     diceDOM.style.display = "block";
-
-    // Update the round score, only if the rolled number was NOT a 1
-    if (dice !== 1) {
-        // Add score
-        roundScore += dice;
-        document.querySelector("#current-" + activePlayer).textContent = roundScore;
-    } else {
-        // Reseting roundScore and Next Player
+    if (dice === 6 && dice === lastDice) {
+        console.log("dos 6 seguidos");
         nextPlayer();
+    }else {
+        // Update the round score, only if the rolled number was NOT a 1 and the rolled number was not a 6 in a row
+        if (dice !== 1) {
+            // Add score
+            roundScore += dice;
+            lastDice = dice;
+            document.querySelector("#current-" + activePlayer).textContent = roundScore;
+        }else {
+            // Reseting roundScore and Next Player
+            console.log("ha sacado un 1");
+            nextPlayer();
+        }
     }
+
     } 
 });
 
@@ -60,6 +67,7 @@ document.querySelector(".btn-hold").addEventListener("click", function(){
 
 function nextPlayer () {
     roundScore = 0;
+    lastDice = 0;
     document.querySelector("#current-" + activePlayer).textContent = roundScore;
     diceDOM.style.display = "none";
     document.querySelector(".player-" + activePlayer + "-panel").classList.toggle("active");
@@ -75,6 +83,7 @@ function init(){
     roundScore = 0;
     activePlayer = 0;
     gamePlaying = true;
+    lastDice = 0;
 
     document.querySelector(".dice").style.display = "none";
 
