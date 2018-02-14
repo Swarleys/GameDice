@@ -25,7 +25,8 @@ document.querySelector(".btn-roll").addEventListener("click", function(){
     diceDOM.src = "dice-" + dice + ".png"
     diceDOM.style.display = "block";
     if (dice === 6 && dice === lastDice) {
-        console.log("dos 6 seguidos");
+        scores[activePlayer] = 0;
+        document.querySelector("#score-" + activePlayer).textContent = 0;
         nextPlayer();
     }else {
         // Update the round score, only if the rolled number was NOT a 1 and the rolled number was not a 6 in a row
@@ -36,7 +37,6 @@ document.querySelector(".btn-roll").addEventListener("click", function(){
             document.querySelector("#current-" + activePlayer).textContent = roundScore;
         }else {
             // Reseting roundScore and Next Player
-            console.log("ha sacado un 1");
             nextPlayer();
         }
     }
